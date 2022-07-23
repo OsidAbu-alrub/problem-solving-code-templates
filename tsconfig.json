@@ -1,0 +1,10 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "target": "esnext",
+        "moduleResolution": "Node",
+    },
+    "ts-node": {
+        "esm": true
+    }
+}
