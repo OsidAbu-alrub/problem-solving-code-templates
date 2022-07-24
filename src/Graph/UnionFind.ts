@@ -7,24 +7,31 @@ export class UnionFind {
 		for (let i = 0; i < numberOfVertices; i++) this.parents[i] = i;
 	}
 
-	// we use to find the parent
-	find = (x: number, parents: Array<number>) => {
-		while (x !== parents[x]) x = parents[x];
-		return x;
+	// this function returns the parent of city
+	findParent = (node: number, parents: Array<number>) => {
+		// iterate until you reach absolute root
+		while (node !== parents[node]) node = parents[node];
+		return node;
 	};
 
-	// we use this to check if the two numbers are in the same
-	// set/group or not
-	union = (x: number, y: number, parents: Array<number>) => {
-		const xRoot = this.find(x, parents);
-		const yRoot = this.find(y, parents);
-		// this means that x and y belong to the same group
-		// also means that there's a cycle detected
-		if (xRoot === yRoot) return true;
+	// function that merges sets/groups/graphs if not in same set
+	// if they are already in the same set, then no change is made
+	union = (
+		representative: number,
+		follower: number,
+		parents: Array<number>
+	) => {
+		// find absolute parents of representative and follower
+		let representativeRoot = this.findParent(representative, parents);
+		let followerRoot = this.findParent(follower, parents);
 
-		// they don't belong to the same set/group
-		// merge them
-		parents[yRoot] = xRoot;
+		// this means they are in the same set/group/graph
+		if (representativeRoot === followerRoot) return true;
+
+		// false means that they weren't in the same
+		// same set, thus we need to merge them
+		// xRoot is representative of yRoot
+		parents[followerRoot] = representativeRoot;
 		return false;
 	};
 }
